@@ -1,14 +1,308 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="Y8RtlK1IxjewOZ1f8Q0vFfJiiQNsP2xW_YnpK_Rk44E" />
+    <title>kpbp</title>
     <style>
-      a {
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        background: #0a0e27;
+      }
+
+      .ocean {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: linear-gradient(
+          180deg,
+          #0f0c29 0%,
+          #302b63 25%,
+          #24243e 45%,
+          #1a3a8a 65%,
+          #1e4d8e 80%,
+          #0f1b5e 100%
+        );
+        background-size: 100% 300%;
+        animation: sky-shift 20s ease-in-out infinite alternate;
+      }
+
+      @keyframes sky-shift {
+        0%   { background-position: 0% 0%; }
+        50%  { background-position: 0% 50%; }
+        100% { background-position: 0% 100%; }
+      }
+
+      .ocean svg {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+      }
+
+      .wave-layer {
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }
+
+      .wave-layer-1 { animation: sway1 7s ease-in-out infinite alternate; }
+      .wave-layer-2 { animation: sway2 9s ease-in-out infinite alternate; }
+      .wave-layer-3 { animation: sway3 11s ease-in-out infinite alternate; }
+      .wave-layer-4 { animation: sway4 8s ease-in-out infinite alternate; }
+      .wave-layer-5 { animation: sway5 13s ease-in-out infinite alternate; }
+
+      @keyframes sway1 {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-12%); }
+      }
+      @keyframes sway2 {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-8%); }
+      }
+      @keyframes sway3 {
+        0%   { transform: translateX(-5%); }
+        100% { transform: translateX(-15%); }
+      }
+      @keyframes sway4 {
+        0%   { transform: translateX(-10%); }
+        100% { transform: translateX(0); }
+      }
+      @keyframes sway5 {
+        0%   { transform: translateX(-3%); }
+        100% { transform: translateX(-13%); }
+      }
+
+      /* Shimmer light on the water */
+      .shimmer {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: radial-gradient(
+          ellipse 60% 40% at 50% 60%,
+          rgba(100, 160, 255, 0.08) 0%,
+          transparent 70%
+        );
+        animation: shimmer-pulse 6s ease-in-out infinite alternate;
+      }
+
+      @keyframes shimmer-pulse {
+        0%   { opacity: 0.3; transform: scale(1); }
+        100% { opacity: 0.8; transform: scale(1.1); }
+      }
+
+      /* Colour overlay that shifts hues across the whole scene */
+      .color-wash {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        opacity: 0.35;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 55, 185, 0.6),
+          rgba(29, 162, 216, 0.5),
+          rgba(180, 60, 120, 0.5),
+          rgba(40, 180, 160, 0.4),
+          rgba(130, 60, 190, 0.6),
+          rgba(20, 120, 200, 0.5)
+        );
+        background-size: 400% 400%;
+        animation: color-cycle 16s ease-in-out infinite;
+        mix-blend-mode: screen;
+      }
+
+      @keyframes color-cycle {
+        0%   { background-position: 0% 50%; }
+        25%  { background-position: 100% 0%; }
+        50%  { background-position: 100% 100%; }
+        75%  { background-position: 0% 100%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        margin-bottom: 24px;
+        color: #fff;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.85),
+          rgba(200, 210, 255, 0.6),
+          rgba(255, 255, 255, 0.85)
+        );
+        background-size: 200% 200%;
+        animation: title-shimmer 8s ease-in-out infinite alternate;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        mix-blend-mode: difference;
+      }
+
+      @keyframes title-shimmer {
+        0%   { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+
+      .link-btn {
         display: block;
+        padding: 16px 48px;
+        min-width: 260px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .link-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1),
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .link-btn:hover {
+        border-color: rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
+        box-shadow:
+          0 8px 32px rgba(30, 80, 180, 0.3),
+          inset 0 0 20px rgba(255, 255, 255, 0.03);
+      }
+
+      .link-btn:hover::before {
+        opacity: 1;
+      }
+
+      .link-btn:active {
+        transform: translateY(0);
       }
     </style>
   </head>
   <body>
-    <a href="/next-game">Next Game</a>
-    <a href="/swiftcheatsheet">Swift Cheat Sheet</a>
+    <div class="ocean">
+      <!-- Wave layer 1 - deepest, back -->
+      <svg class="wave-layer wave-layer-1" viewBox="0 0 2400 800" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1e3a8a">
+              <animate attributeName="stop-color" values="#1e3a8a;#6d28d9;#1e3a8a" dur="14s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#0f1b5e">
+              <animate attributeName="stop-color" values="#0f1b5e;#4c1d95;#0f1b5e" dur="14s" repeatCount="indefinite" />
+            </stop>
+          </linearGradient>
+        </defs>
+        <path fill="url(#g1)" d="M0,350 C200,280 400,420 600,350 C800,280 1000,400 1200,340 C1400,280 1600,410 1800,350 C2000,290 2200,390 2400,340 L2400,800 L0,800 Z" />
+      </svg>
+
+      <!-- Wave layer 2 -->
+      <svg class="wave-layer wave-layer-2" viewBox="0 0 2400 800" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0.5">
+            <stop offset="0%" stop-color="#2563eb">
+              <animate attributeName="stop-color" values="#2563eb;#db2777;#2563eb" dur="18s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#1d4ed8">
+              <animate attributeName="stop-color" values="#1d4ed8;#9333ea;#1d4ed8" dur="18s" repeatCount="indefinite" />
+            </stop>
+          </linearGradient>
+        </defs>
+        <path fill="url(#g2)" d="M0,400 C150,340 350,460 550,390 C750,320 950,450 1150,400 C1350,350 1550,470 1750,400 C1950,330 2150,440 2400,390 L2400,800 L0,800 Z" />
+      </svg>
+
+      <!-- Wave layer 3 - mid -->
+      <svg class="wave-layer wave-layer-3" viewBox="0 0 2400 800" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="g3" x1="0" y1="0" x2="1" y2="0.3">
+            <stop offset="0%" stop-color="#7c3aed">
+              <animate attributeName="stop-color" values="#7c3aed;#0891b2;#7c3aed" dur="16s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#4f46e5">
+              <animate attributeName="stop-color" values="#4f46e5;#0e7490;#4f46e5" dur="16s" repeatCount="indefinite" />
+            </stop>
+          </linearGradient>
+        </defs>
+        <path fill="url(#g3)" d="M0,450 C180,380 380,510 580,440 C780,370 980,490 1180,430 C1380,370 1580,500 1780,440 C1980,380 2180,480 2400,430 L2400,800 L0,800 Z" />
+      </svg>
+
+      <!-- Wave layer 4 -->
+      <svg class="wave-layer wave-layer-4" viewBox="0 0 2400 800" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="g4" x1="0" y1="0" x2="1" y2="0.5">
+            <stop offset="0%" stop-color="#1d4ed8">
+              <animate attributeName="stop-color" values="#1d4ed8;#be185d;#14b8a6;#1d4ed8" dur="20s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#1e3a8a">
+              <animate attributeName="stop-color" values="#1e3a8a;#9333ea;#0d9488;#1e3a8a" dur="20s" repeatCount="indefinite" />
+            </stop>
+          </linearGradient>
+        </defs>
+        <path fill="url(#g4)" d="M0,500 C200,440 350,550 600,490 C850,430 1000,540 1200,490 C1400,440 1600,550 1800,490 C2000,430 2200,530 2400,480 L2400,800 L0,800 Z" />
+      </svg>
+
+      <!-- Wave layer 5 - front, closest -->
+      <svg class="wave-layer wave-layer-5" viewBox="0 0 2400 800" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="g5" x1="0" y1="0" x2="1" y2="0.3">
+            <stop offset="0%" stop-color="#312e81">
+              <animate attributeName="stop-color" values="#312e81;#831843;#155e75;#312e81" dur="22s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#1e1b4b">
+              <animate attributeName="stop-color" values="#1e1b4b;#701a75;#134e4a;#1e1b4b" dur="22s" repeatCount="indefinite" />
+            </stop>
+          </linearGradient>
+        </defs>
+        <path fill="url(#g5)" d="M0,550 C160,500 360,590 560,540 C760,490 960,580 1160,540 C1360,500 1560,590 1760,540 C1960,490 2160,570 2400,530 L2400,800 L0,800 Z" />
+      </svg>
+    </div>
+
+    <div class="shimmer"></div>
+    <div class="color-wash"></div>
+
+    <div class="content">
+      <h1 class="title">kpbp.github.io</h1>
+      <a class="link-btn" href="/next-game">Next Game</a>
+      <a class="link-btn" href="/swiftcheatsheet">Swift Cheat Sheet</a>
+      <a class="link-btn" href="/gallery">Gallery</a>
+    </div>
   </body>
 </html>
